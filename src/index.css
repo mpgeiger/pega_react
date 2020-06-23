@@ -1,13 +1,78 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.breadcrumb {
+    color: darkred !important;
+}
+
+a.section {
+    color: red !important;
+}
+
+a.section:hover {
+    color: darkgray !important;
+}
+
+/* no padding */
+.no_padding {
+    padding: 0px !important;
+}
+
+.footer {
+    width: 100%;
+    height: 35px;
+    text-align: right;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 35px;
+}
+
+.site_container {
+    position: relative;
+}
+
+.application {
+    background-color: rgba(243, 240, 240, 0.404);
+    padding: 80px 2rem 35px 2rem;
+    /*min-height: 100%;*/
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    width: 500px;
+    min-width: 500px;
+}
+
+.chatbot {
+    min-height: 500px;
+}
+
+.workspace {
+    padding-left: 50px;
+}
+
+.workspace_heading {
+    background-color: darkgray;
+}
+
+.workspace_row {
+    border-bottom: rgba(243, 33, 33, 0.2);;
+    border-bottom-style: dotted;
+    border-bottom-width: thin;
 }
