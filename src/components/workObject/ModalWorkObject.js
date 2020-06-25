@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Container, Grid, Image, Modal, Tab} from 'semantic-ui-react'
 import {Link} from "react-router-dom";
 import {WorkObject} from "./workObject";
-import {caseActions} from "../../store/actions";
+import {assignmentActions, caseActions} from "../../store/actions";
 
 class ModalWorkObject extends Component {
 
@@ -38,7 +38,10 @@ class ModalWorkObject extends Component {
         });
     };
 
-    close = () => this.setState({open: false});
+    close = () => {
+        this.setState({open: false});
+        assignmentActions.closeAssignment(this.props.openAssignments[this.props.openAssignments.length - 1]);
+    };
 
     render() {
         const {open, dimmer} = this.state;
@@ -55,8 +58,22 @@ class ModalWorkObject extends Component {
                         {this.links}
                     </ul>
                 </Container>
+                {this.getModal(dimmer, open)}
+            </div>
+        )
+    }
+
+    createCase(id) {
+        console.log(id);
+        this.props.dispatch(caseActions.createCaseV2(id));
+    }
+
+    getModal(dimmer, open) {
+        console.log(JSON.stringify(this.props.activeAlerts));
+        if (this.props.currentClosed === false) {
+            return (
                 <Modal dimmer={dimmer} open={open} onClose={this.close} closeIcon>
-                    <Modal.Content image>
+                    <Modal.Content>
                         <Grid>
                             <Grid.Row>
                                 <Grid.Column width={6}>
@@ -80,31 +97,56 @@ class ModalWorkObject extends Component {
                         </Grid>
                     </Modal.Content>
                 </Modal>
-            </div>
-        )
-    }
-
-    createCase(id) {
-        console.log(id);
-        this.props.dispatch(caseActions.createCaseV2(id));
+            );
+        } else if (this.props.activeAlerts) {
+            return (
+                <Modal dimmer={dimmer} open={open} onClose={this.close} closeIcon>
+                    <Modal.Content>
+                        <Grid>
+                            <Grid.Row>
+                                <Grid.Column width={6}>
+                                    <h2>{this.state.summary}</h2>
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Grid.Column width={3}>
+                                    <Image src={this.state.imageUrl}/>
+                                </Grid.Column>
+                                <Grid.Column width={13}>
+                                    <Modal.Description>
+                                        <div className="dashboard-container">
+                                            <Container fluid>
+                                                {this.props.activeAlerts[this.props.activeAlerts.length - 1].message}
+                                            </Container>
+                                        </div>
+                                    </Modal.Description>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </Modal.Content>
+                </Modal>
+            );
+        } else {
+            return '';
+        }
     }
 
     getWork() {
         if (
-            (this.props.assignmentDetails[this.props.openAssignments[0]] &&
-                this.props.caseDetails[this.props.openAssignments[0]]) ||
-            this.props.pages[this.props.openAssignments[0]]
+            (this.props.assignmentDetails[this.props.openAssignments[this.props.openAssignments.length - 1]] &&
+                this.props.caseDetails[this.props.openAssignments[this.props.openAssignments.length - 1]]) ||
+            this.props.pages[this.props.openAssignments[this.props.openAssignments.length - 1]]
         ) {
             return (
                 <WorkObject
-                    assignment={this.props.assignmentDetails[this.props.openAssignments[0]]}
-                    caseID={this.props.openAssignments[0]}
-                    case={this.props.caseDetails[this.props.openAssignments[0]]}
-                    page={this.props.pages[this.props.openAssignments[0]]}
+                    assignment={this.props.assignmentDetails[this.props.openAssignments[this.props.openAssignments.length - 1]]}
+                    caseID={this.props.openAssignments[this.props.openAssignments.length - 1]}
+                    case={this.props.caseDetails[this.props.openAssignments[this.props.openAssignments.length - 1]]}
+                    page={this.props.pages[this.props.openAssignments[this.props.openAssignments.length - 1]]}
                 />
             );
         } else {
-            return <Tab.Pane key={this.props.openAssignments[0]} loading/>;
+            return <Tab.Pane key={this.props.openAssignments[this.props.openAssignments.length - 1]} loading/>;
         }
     }
 
@@ -117,8 +159,10 @@ function mapStateToProps(state) {
         activeIndex,
         worklistSettings,
         openCasesData,
-        openAssignmentsTabIdx
+        openAssignmentsTabIdx,
+        currentClosed
     } = state.assignments;
+    const {activeAlerts} = state.alert;
     const {caseDetails, pages} = state.cases;
 
     return {
@@ -129,7 +173,9 @@ function mapStateToProps(state) {
         activeIndex: activeIndex,
         worklistSettings,
         openCasesData,
-        openAssignmentsTabIdx
+        openAssignmentsTabIdx,
+        currentClosed,
+        activeAlerts
     };
 }
 

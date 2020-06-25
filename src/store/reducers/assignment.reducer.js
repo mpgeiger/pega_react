@@ -20,7 +20,8 @@ const assignmentsDefaultState = {
         direction: "descending",
         assignmentType: "Worklist"
     },
-    openCasesData: {}
+    openCasesData: {},
+    currentClosed: false
 };
 
 export function assignments(state = assignmentsDefaultState, action) {
@@ -34,7 +35,8 @@ export function assignments(state = assignmentsDefaultState, action) {
             return {
                 ...state,
                 loading: false,
-                allAssignments: _.keyBy(action.assignments, o => o.caseID)
+                allAssignments: _.keyBy(action.assignments, o => o.caseID),
+                currentClosed: false
             };
         case actionTypes.ASSIGNMENTS_FAILURE:
             return {
@@ -104,7 +106,8 @@ export function assignments(state = assignmentsDefaultState, action) {
                 openCasesData: {
                     ...state.openCasesData,
                     [action.assignment.caseID]: {}
-                }
+                },
+                currentClosed: false
             };
 
         case actionTypes.ASSIGNMENT_REVIEW_MODE:
@@ -150,7 +153,8 @@ export function assignments(state = assignmentsDefaultState, action) {
                     ...state.openCasesData,
                     [action.id]: {}
                 },
-                activeIndex: caseIdx >= 0 ? caseIdx + 1 : 0
+                activeIndex: caseIdx >= 0 ? caseIdx + 1 : 0,
+                currentClosed: true
             };
 
         case actionTypes.ASSIGNMENT_CHANGED:

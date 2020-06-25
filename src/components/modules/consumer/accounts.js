@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Grid, Image} from "semantic-ui-react";
+import {Grid, Icon, Image} from "semantic-ui-react";
 import {accountActions} from "../../../store/actions";
 
 const numberFormat = (value) =>
@@ -54,7 +54,10 @@ class Accounts extends Component {
                     <Grid.Column width={2} className="workspace_heading"><h5>Account Number</h5></Grid.Column>
                     <Grid.Column width={2} className="workspace_heading"><h5>Current Balance</h5></Grid.Column>
                     <Grid.Column width={2} className="workspace_heading"><h5>Credit Limit</h5></Grid.Column>
-                    <Grid.Column width={4} className="workspace_heading">
+                    <Grid.Column width={4} className="workspace_heading" textAlign="right">
+                        <a href="#" onClick={() => this.refreshAccounts()}>
+                            <Icon name="refresh"></Icon>
+                        </a>
                     </Grid.Column>
                 </Grid.Row>
                 {this.accountDisplay}

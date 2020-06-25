@@ -9,7 +9,7 @@ import {Accounts} from "./accounts";
 import {CustomerInfo} from "./customer_info";
 
 class Consumer extends Component {
-    constructor(props, context, work) {
+    constructor(props, context) {
         super(props, context);
         this.work = {
             instances: [

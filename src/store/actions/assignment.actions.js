@@ -229,16 +229,16 @@ function performActionOnAssignment(caseID, assignmentID, actionID, body) {
                   );
                 });
               } else {
-                // Get view for case -- pyCaseDetails section to display alongside WorkObject.
-                // We want to display this with confirm harness, but not New harness.
-                dispatch(caseActions.getView(caseID, "pyCaseDetails"));
-                // Get case info again, so that we can put status onto Confirm harness
-                dispatch(caseActions.getCase(caseID));
                 // Get harness for confirm
                 if (assignment.nextPageID === 'Confirm') {
-                  dispatch(displayBanner('Thank you! The next step in the case has been routed appropriately'));
+                  dispatch(alertActions.success('Thank you! The next step in the case has been routed appropriately'));
                   return dispatch(closeAssignment(caseID));
                 } else {
+                  // Get view for case -- pyCaseDetails section to display alongside WorkObject.
+                  // We want to display this with confirm harness, but not New harness.
+                  dispatch(caseActions.getView(caseID, "pyCaseDetails"));
+                  // Get case info again, so that we can put status onto Confirm harness
+                  dispatch(caseActions.getCase(caseID));
                   dispatch(caseActions.getPage(caseID, assignment.nextPageID));
                   return dispatch(success(caseID, assignment, null));
                 }
@@ -291,10 +291,6 @@ function performActionOnAssignment(caseID, assignmentID, actionID, body) {
 
 function closeAssignment(id) {
   return {type: actionTypes.ASSIGNMENT_CLOSED, id};
-}
-
-function displayBanner(banner) {
-  return {type: actionTypes.BANNER_CHANGED, banner};
 }
 
 function saveWorklistSettings(column, direction, assignmentType) {

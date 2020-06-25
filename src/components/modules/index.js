@@ -4,3 +4,4 @@ export * from "./investments/investments";
 export * from "./lending/lending";
 export * from "./treasury/treasury";
 export * from "./home/home";
+export * from "./consumer/consumer";

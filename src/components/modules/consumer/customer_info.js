@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {customerInfoActions} from "../../../store/actions";
+import {Icon} from "semantic-ui-react";
 
 class CustomerInfo extends Component {
 
@@ -40,6 +41,11 @@ class CustomerInfo extends Component {
     getCustomer() {
         return (
             <div>
+                <div align="right">
+                    <a href="#" onClick={() => this.refreshCustomerInfo()}>
+                        <Icon name="refresh"></Icon>
+                    </a>
+                </div>
                 <h5>{this.customer.fullName}</h5>
                 <i>{this.customer.email}</i><br/>
                 <br/>
